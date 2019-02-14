@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: expenses
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: jgro
+Implementation-Vendor-Id: com.home
+Build-Jdk: 1.8.0_201
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/expenses
+Created-By: Maven Integration for Eclipse
+

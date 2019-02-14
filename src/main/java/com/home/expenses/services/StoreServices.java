@@ -1,13 +1,10 @@
 package com.home.expenses.services;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.elasticsearch.common.geo.GeoPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
@@ -19,18 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.home.expenses.controllers.ProductController;
 import com.home.expenses.controllers.StoreController;
-import com.home.expenses.models.Currency;
-import com.home.expenses.models.Meassure;
 import com.home.expenses.models.Product;
 import com.home.expenses.models.Store;
 
 import lombok.extern.log4j.Log4j2;
 
 @RestController
-@RequestMapping("/expenses")
+@RequestMapping("/store")
 @Log4j2
 @ComponentScan
-public class ProductServices {
+public class StoreServices {
 
 	@Autowired
 	ProductController productController;
@@ -39,30 +34,25 @@ public class ProductServices {
 	StoreController storeController;
 	
 	@PostMapping("/insert")
-	ResponseEntity<Product> insert (@RequestBody String prod) {
+	ResponseEntity<Store> insert (@RequestBody String store) {
 		JSONObject jObject;
 		try {
-			jObject = new JSONObject(prod);
+			jObject = new JSONObject(store);
 			String name = (String)jObject.get("name");
-			Double paid = ((Number)jObject.get("paid")).doubleValue();
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-			Date date = formatter.parse((String)jObject.getString("date"));
-			String comments = (String)jObject.get("comments");
-			Meassure presentation = Meassure.valueOf((String)jObject.get("presentation"));
-			Currency currency = Currency.valueOf((String)jObject.get("currency"));
-			Double quantity = ((Number)jObject.get("quantity")).doubleValue();
-			String geoHash = (String)jObject.get("gp");
+			Double lat = ((Number)jObject.get("lat")).doubleValue();
+			Double lon = ((Number)jObject.get("lon")).doubleValue();
+			String geoHash = new GeoPoint(lat, lon).geohash();
 			
-			Store store = storeController.findByGp(geoHash);
+			Store newStore = storeController.findByGp(geoHash);
 			if (store == null)
-				return (ResponseEntity<Product>) ResponseEntity.badRequest();
+				return ResponseEntity.ok(storeController.insert(name, lat, lon));
 			
-			return ResponseEntity.ok(productController.insert(name, paid, store, date, comments, presentation, currency, quantity));
+			return (ResponseEntity<Store>) ResponseEntity.badRequest();
 			
-		} 	catch (JSONException | ParseException e) {
+		} 	catch (JSONException e) {
 			log.error(e.getStackTrace());
 		}
-		return (ResponseEntity<Product>) ResponseEntity.badRequest();		
+		return (ResponseEntity<Store>) ResponseEntity.badRequest();		
 	}
 	
 	@GetMapping("/list")
