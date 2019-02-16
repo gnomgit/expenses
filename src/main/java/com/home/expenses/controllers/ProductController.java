@@ -3,7 +3,6 @@ package com.home.expenses.controllers;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -26,6 +25,7 @@ public class ProductController {
 
 	@Autowired
 	private ProductRepo productRepo;
+
 	
 	public Product insert ( String name, 
 			Double paid, 
@@ -47,7 +47,8 @@ public class ProductController {
 		p = new Product();
 		p.setId(id);
 		p.setName(name);
-		p.setStore(store);
+		p.setStore(store.getId());
+		p.setStoreName(store.getName());
 		p.setPaid(paid);
 		p.setDate(date);
 		p.setComments(comments);
@@ -64,6 +65,10 @@ public class ProductController {
 
 	public List<Product> listAll () {
 		return StreamSupport.stream(productRepo.findAll().spliterator(), false).collect(Collectors.toList());
+	}
+	
+	public Product remove (UUID id) {
+		return productRepo.removeById(id);
 	}
 	
 }
