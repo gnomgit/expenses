@@ -12,6 +12,7 @@ public class Config {
 	@Autowired
 	public ProductController productController;
 	
-	
+	@Autowired
+	public StatisticController statisticController;
 	
 }

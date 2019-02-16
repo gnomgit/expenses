@@ -83,7 +83,7 @@ public class StoreController {
 		if (deleted != null) {
 			deleted.getProducts().forEach(p -> productRepo.removeById(id));
 		}
-		return null;
+		return deleted;
 	}
 	
 }
