@@ -25,7 +25,7 @@ import com.home.expenses.repositories.StoreRepo;
 import lombok.extern.log4j.Log4j2;
 
 @RestController
-@RequestMapping("/store")
+@RequestMapping("/statistic")
 @Log4j2
 @ComponentScan
 public class StatisticServices {
