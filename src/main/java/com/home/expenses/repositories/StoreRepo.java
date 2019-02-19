@@ -12,14 +12,14 @@ import com.home.expenses.models.Store;
 @Repository
 public interface StoreRepo extends ElasticsearchRepository<Store, UUID> {
 
-	public Iterable<Store> findByName (String name);
+	Iterable<Store> findByName (String name);
 	
-	public Store findFirstByName (String name);
+	Store findFirstByName (String name);
 	
 	//public Iterable<Store> findByGp (String gp);
 	
 	//public Store findFirstByGp (String gp);
 	@Transactional
-	public Store removeById (UUID id);
+	Store removeById (UUID id);
 	
 }

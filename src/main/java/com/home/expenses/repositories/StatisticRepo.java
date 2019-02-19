@@ -4,7 +4,11 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import com.home.expenses.models.Statistic;
@@ -13,11 +17,13 @@ import com.home.expenses.models.Store;
 @Repository
 public interface StatisticRepo extends ElasticsearchRepository<Statistic, UUID> {
 
-	public Iterable<Statistic> findByName (String name);
+	Page<Statistic> findByName (String name, Pageable pageable);
 	
-	public Statistic findFirstByName (String name);
+	Statistic findFirstByName (String name);
+	
+	boolean existsByName(String name);
 	
 	@Transactional
-	public Statistic removeById (UUID id);
+	Statistic removeById (UUID id);
 	
 }

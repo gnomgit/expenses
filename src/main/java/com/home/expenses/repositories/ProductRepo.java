@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,9 +18,7 @@ public interface ProductRepo extends ElasticsearchRepository<Product, UUID> {
 	@Transactional
 	Product removeById (UUID id);
 	
-	//List<Product> findAllByDateLessThanAndDateGreaterThanEqual(Date endDate, Date startDate);
-	
-	List<Product> findByDateBeforeAndDateAfter(Long endDate, Long startDate);
+	Page<Product> findByDateBeforeAndDateAfter(Long endDate, Long startDate, Pageable pageable);
 	
 	List<Product> findByDateBefore(Long date);
 	
