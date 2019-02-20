@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.home.expenses.controllers.Config;
 import com.home.expenses.models.Statistic;
 import com.home.expenses.models.Store;
+import com.home.expenses.models.Time;
 import com.home.expenses.repositories.StoreRepo;
 
 import lombok.extern.log4j.Log4j2;
@@ -47,6 +48,26 @@ public class StatisticServices {
 	@GetMapping(value="/findbyname/{name}")
 	ResponseEntity<Statistic> findByName (@PathVariable String name) {
 		Statistic result = cfg.statisticController.findByName(name);
+		if (result != null) {
+			return ResponseEntity.ok(result);
+		}
+		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+	}
+	
+	@RequestMapping(value = "/total/{t}/{end}", method = RequestMethod.GET)
+	ResponseEntity<Statistic> total (@PathVariable String t, @PathVariable String end) {
+		Time time = Time.valueOf(t);
+		Statistic result = cfg.statisticController.manualTotalReport (end, time);
+		if (result != null) {
+			return ResponseEntity.ok(result);
+		}
+		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+	}
+	
+	@RequestMapping(value = "/totalforced/{t}/{end}", method = RequestMethod.GET)
+	ResponseEntity<Statistic> totalforced (@PathVariable String t, @PathVariable String end) {
+		Time time = Time.valueOf(t);
+		Statistic result = cfg.statisticController.manualTotalReportForced (end, time);
 		if (result != null) {
 			return ResponseEntity.ok(result);
 		}

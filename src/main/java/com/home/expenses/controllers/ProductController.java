@@ -28,13 +28,13 @@ public class ProductController {
 
 	
 	public Product insert ( String name, 
-			Double paid, 
-			Store store,
-			Date date, 
-			String comments, 
-			Meassure presentation, 
-			Currency currency, 
-			Double quantity) {
+							Double paid, 
+							Store store,
+							Date date, 
+							String comments, 
+							Meassure presentation, 
+							Currency currency, 
+							Double quantity) {
 
 		UUID id = UUID.randomUUID();
 		

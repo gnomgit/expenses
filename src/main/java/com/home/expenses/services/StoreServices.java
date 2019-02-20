@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.home.expenses.controllers.Config;
 import com.home.expenses.models.Store;
-import com.home.expenses.repositories.StoreRepo;
 
 import lombok.extern.log4j.Log4j2;
 
